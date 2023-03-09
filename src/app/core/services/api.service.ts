@@ -6,6 +6,7 @@ import { IUser } from '../models/user';
 import { ILocation } from '../models/location';
 import { ILocationType } from '../models/location-type';
 import { IReport } from '../models/report';
+import { ICustomPin } from '../models/custom-pin';
 
 /** Service responsible for api requests. */
 @Injectable({
@@ -19,6 +20,11 @@ export class APIService {
       getLocations: 'locations/list/',
       getLocation: (id: number): string => `locations/details/${id}/`,
       favourite: (id: number): string => `locations/details/${id}/favourite/`,
+    },
+    customPins: {
+      listCreate: 'custom-pins/list/',
+      retrieveUpdateDelete: (id: number): string =>
+        `custom-pins/details/${id}/`,
     },
     reports: {
       postReport: 'locations/report/',
@@ -54,5 +60,33 @@ export class APIService {
 
   removeFavourite(id: number): Observable<any> {
     return this._http.delete(this._apiUrls.locations.favourite(id));
+  }
+
+  listCustomPins(): Observable<ICustomPin[]> {
+    return this._http.get<ICustomPin[]>(this._apiUrls.customPins.listCreate);
+  }
+
+  createCustomPin(pin: ICustomPin): Observable<ICustomPin> {
+    return this._http.post<ICustomPin>(
+      this._apiUrls.customPins.listCreate,
+      pin
+    );
+  }
+
+  retrieveCustomPin(id: number): Observable<ICustomPin> {
+    return this._http.get<ICustomPin>(
+      this._apiUrls.customPins.retrieveUpdateDelete(id)
+    );
+  }
+
+  updateCustomPin(pin: ICustomPin): Observable<ICustomPin> {
+    return this._http.put<ICustomPin>(
+      this._apiUrls.customPins.retrieveUpdateDelete(pin.id!),
+      pin
+    );
+  }
+
+  deleteCustomPin(id: number): Observable<any> {
+    return this._http.delete(this._apiUrls.customPins.retrieveUpdateDelete(id));
   }
 }
