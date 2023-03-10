@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { ILocation, ILocationFull } from 'src/app/core/models/location';
 
 import * as L from 'leaflet';
@@ -8,6 +8,9 @@ import { CacheService } from 'src/app/core/services/cache.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Coords } from 'src/app/shared/utils/coords';
 import { LeafletMapComponent } from 'src/app/core/components/map/leaflet-map.component';
+import { ICustomPin } from 'src/app/core/models/custom-pin';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { APIService } from 'src/app/core/services/api.service';
 
 @Component({
   selector: 'app-map',
@@ -18,6 +21,8 @@ export class MapComponent {
   @ViewChild(LeafletMapComponent) _mapComponent!: LeafletMapComponent;
 
   locations$!: Observable<ILocation[]>;
+  customPins: ICustomPin[] = [];
+  isUserAuthenticated$!: Observable<boolean>;
   userPosition: L.LatLng | null = null;
 
   selectedCoordinates: L.LatLng | null = null;
@@ -53,7 +58,9 @@ export class MapComponent {
     private _mapModuleService: MapModuleService,
     private _cacheService: CacheService,
     private _route: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private _authService: AuthService,
+    private _apiService: APIService
   ) {}
 
   ngOnInit(): void {
@@ -96,6 +103,7 @@ export class MapComponent {
 
   private _initSubscriptions(): void {
     this.locations$ = this._mapModuleService.locations$;
+    this.isUserAuthenticated$ = this._authService.isAuthenticated$;
     this.userPosition = null;
 
     const selectedTypesSubscription =
@@ -151,6 +159,19 @@ export class MapComponent {
       }
     );
     this._subscriptions.push(userPositionSubscription);
+
+    const customPinsSubscription = this.isUserAuthenticated$.subscribe(
+      (isAuthenticated: boolean) => {
+        if (isAuthenticated) {
+          this._apiService.listCustomPins().subscribe((pins) => {
+            this.customPins = pins;
+          });
+        } else {
+          this.customPins = [];
+        }
+      }
+    );
+    this._subscriptions.push(customPinsSubscription);
   }
 
   ngOnDestroy(): void {

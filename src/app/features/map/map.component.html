@@ -12,6 +12,17 @@
       (click)="onLocationClick(location)"
     ></core-location-marker>
   </core-cluster-group>
+
+  <core-feature-group *ngIf="isUserAuthenticated$ | async">
+    <core-marker
+      *ngFor="let customPin of customPins"
+      [coordinates]="[customPin.latitude, customPin.longitude]"
+      [tooltip]="customPin.label"
+      [color]="'violet'"
+      [icon]="customPin.icon"
+    ></core-marker>
+  </core-feature-group>
+
   <core-feature-group
     ><core-location-marker
       *ngIf="selectedLocation"
