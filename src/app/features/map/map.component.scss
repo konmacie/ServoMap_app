@@ -25,6 +25,22 @@ $nav-size: 2.75rem;
   cursor: pointer;
 }
 
+#filter-button {
+  position: absolute;
+  right: 1rem;
+  top: 4.5rem;
+  z-index: 8000;
+  height: $nav-size;
+  width: $nav-size;
+  line-height: $nav-size;
+  text-align: center;
+  border-radius: 0.5rem;
+  font-size: calc($nav-size/2);
+  background-color: var(--container-background);
+  color: var(--text-color);
+  cursor: pointer;
+}
+
 #details {
   color: red;
 }

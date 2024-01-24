@@ -11,6 +11,8 @@ import { TextareaInputComponent } from './components/forms/textarea-input/textar
 import { StarRatingComponent } from './components/star-rating/star-rating.component';
 import { RatingInputComponent } from './components/forms/rating-input/rating-input.component';
 import { StarRatingIntegerComponent } from './components/star-rating-integer/star-rating-integer.component';
+import { EmailInputComponent } from './components/forms/email-input/email-input.component';
+import { NumberInputComponent } from './components/forms/number-input/number-input.component';
 
 const declarations = [
   BouncingPinComponent,
@@ -18,6 +20,8 @@ const declarations = [
   HamburgerAnimatedComponent,
   // AbstractInputComponent,
   StringInputComponent,
+  NumberInputComponent,
+  EmailInputComponent,
   PasswordInputComponent,
   InputErrorsComponent,
   TextareaInputComponent,

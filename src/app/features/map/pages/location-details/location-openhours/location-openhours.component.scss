@@ -1,0 +1,61 @@
+@use "/src/styles/mixin/breakpoints.scss" as breakpoint;
+
+$btn-size: 2.5rem;
+
+.close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: $btn-size;
+  height: $btn-size;
+  line-height: $btn-size;
+  text-align: center;
+  font-size: calc($btn-size / 2);
+  text-decoration: none;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.container__icon-header {
+  padding-left: 3.5rem;
+}
+
+table {
+  width: 100%;
+
+  td {
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+.table-header-name {
+  width: 100%;
+}
+
+tbody td {
+  padding: 0.5rem;
+}
+
+tbody > tr:nth-child(odd) {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.price-cell {
+  text-align: right;
+}
+
+.price-type {
+  font-size: 0.8rem;
+  color: var(--color-secondary);
+  // text-transform: uppercase;
+}
+
+@include breakpoint.up("sm") {
+  #services {
+    border-radius: 0.5rem;
+  }
+
+  .container__icon-header {
+    padding-left: 0;
+  }
+}
